@@ -1,0 +1,40 @@
+package MarketPages;
+
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import MarketAction.MarketAction;
+import MarketItems.MarketItems;
+
+public class HomePage extends Page {
+
+	@FindBy(id = "header-search")
+    public WebElement searchField;
+
+    @FindBy(xpath = "/html/body/div[1]/div[1]/noindex/div[1]/div/div[2]/div/div[2]/div/form/span/button")
+    public WebElement buttonFind;
+
+    Properties property = new Properties();
+
+    public HomePage(WebDriver driver) {
+        super(driver);
+    }
+
+    public ResultPage searchProcess(MarketItems MacBook) {
+        searchField.click();
+        type(searchField, MacBook.item);
+        searchField.sendKeys(Keys.ENTER);	//buttonFind.click();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        return PageFactory.initElements(driver, ResultPage.class);
+    }
+
+    public void open() {
+        driver.get(MarketAction.getProperty("c.url"));
+    }
+}

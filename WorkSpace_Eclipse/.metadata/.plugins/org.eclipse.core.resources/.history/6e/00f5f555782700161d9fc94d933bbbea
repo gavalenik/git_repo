@@ -1,0 +1,33 @@
+package market.yandex.ru;
+
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import MarketPages.HomePage;
+import MarketPages.ResultPage;
+
+public class SearchMacbook extends BasicTestCase {
+	
+	private HomePage homePage = PageFactory.initElements(getWebDriver(), HomePage.class);
+    private ResultPage resultPage;
+    private static final Logger log = Logger.getLogger(SearchMacbook.class);
+
+    @Test
+    public void testUntitled() throws Exception {
+
+        homePage.open();
+        	System.out.println("������ ������!");  	//log.info("������ ������!");
+        resultPage = homePage.searchProcess(MacBook);
+        	System.out.println("����� �������!");   
+        Assert.assertTrue(resultPage.forwardToSort(), "!!!� ����������� ������ �� �������!!!");
+        	System.out.println("�������� ����������� �������!");
+        resultPage.sortWithPrice();
+        	System.out.println("���������� � ������ �����������!");
+        if (resultPage.cifri() <= 70000){				//	�������� ����� ���!!
+        	System.out.println("������ ������!! =))");
+        } else {
+        	System.out.println("������� ������!! =((");
+        	}
+    }
+}

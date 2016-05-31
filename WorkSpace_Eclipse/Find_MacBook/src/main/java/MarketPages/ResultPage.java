@@ -1,0 +1,57 @@
+package MarketPages;
+
+
+import java.util.Properties;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import MarketAction.MarketAction;
+
+public class ResultPage extends Page {
+
+	@FindBy(id = "glf-pricefrom-var")
+    public WebElement priceFieldFrom;
+
+    @FindBy(xpath = "/html/body/div[1]/div[4]/div[2]/div[2]/div[1]/div/div[7]/div/button")
+    public WebElement buttonApply;
+    
+    @FindBy(xpath = "/html/body/div[1]/div[4]/div[1]/div[2]/div[1]/div[1]/div[2]/a")
+    public WebElement buttonPriceLowHigh;
+
+    @FindBy(xpath = "/html/body/div[1]/div[3]/div/div[1]/h1")
+    public WebElement chekTitle;
+    
+    @FindBy(xpath = "html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/a/div[1]/span")
+    public WebElement lowPriceItem;
+    
+    Properties property = new Properties();
+
+    public ResultPage(WebDriver driver) {
+        super(driver);
+    }
+
+    public boolean forwardToSort() {
+        return isElementPresent(chekTitle);
+    }
+    
+    public Integer cifri(){
+    	String str = "";
+    	for (int i=0; i<lowPriceItem.getText().length(); i++){
+    		if (lowPriceItem.getText().charAt(i) >= '0' && lowPriceItem.getText().charAt(i) <= '9'){
+    			str = str + lowPriceItem.getText().charAt(i);
+    			//System.out.print(lowPriceItem.getText().charAt(i));
+    		}
+    	}
+    	return Integer.parseInt(str);
+    }    
+
+    public HomePage sortWithPrice() {
+        priceFieldFrom.click();
+        type(priceFieldFrom, MarketAction.getProperty("c.lowprice"));
+        buttonApply.click();
+        //buttonPriceLowHigh.click();
+        scrollUp();
+        return PageFactory.initElements(driver, HomePage.class);
+    }
+}

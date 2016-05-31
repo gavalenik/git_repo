@@ -1,0 +1,30 @@
+package market.yandex.ru;
+
+import org.testng.annotations.AfterMethod;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterTest;
+import MarketAction.MarketAction;
+import MarketItems.MarketItems;
+
+public class BasicTestCase {
+
+	protected static WebDriver driver;
+    Properties property = new Properties();
+    public MarketItems MacBook = new MarketItems("MacBook Pro 13", 80501);
+
+    protected WebDriver getWebDriver() {
+        if (driver == null) {
+            driver = new FirefoxDriver();
+            driver.manage().timeouts().implicitlyWait(Long.parseLong(MarketAction.getProperty("c.wait")), TimeUnit.SECONDS); 
+        }
+        return driver;
+    }
+
+	@AfterTest
+    public void tearDown() throws Exception {
+        driver.quit();
+    }
+}
